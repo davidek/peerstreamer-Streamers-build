@@ -15,4 +15,4 @@
 	url = http://halo.disi.unitn.it/~cskiraly/PublicGits/x264.git
 [submodule "ChunkerPlayer"]
 	path = ChunkerPlayer
-	url = git://halo.disi.unitn.it/cskiraly/ChunkerPlayer.git
+	url = http://halo.disi.unitn.it/~baldesi/PublicGits/ChunkerPlayer.git
