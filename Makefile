@@ -166,6 +166,9 @@ ifeq (,$(findstring mingw32,$(HOSTARCH)))
 	ln -s streamer-ml-monl-chunkstream$(XSTATIC)$(EXE) $(DIR)/streamer
 	cp scripts/source.sh $(DIR)
 	cp scripts/player.sh $(DIR)
+else
+	cp scripts/peerstreamer.bat $(DIR)
+	cp scripts/runQuietly.vbs $(DIR)
 endif
 	cp channels.conf $(DIR)
 	cp README $(DIR)
