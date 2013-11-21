@@ -1,6 +1,6 @@
 [submodule "Streamers"]
 	path = Streamers
-	url = http://halo.disi.unitn.it/~russo/PublicGits/Streamers.git/
+	url = http://halo.disi.unitn.it/~baldesi/PublicGits/Streamers.git/
 [submodule "THIRDPARTY-LIBS/GRAPES"]
 	path = THIRDPARTY-LIBS/GRAPES
 	url = http://halo.disi.unitn.it/~cskiraly/PublicGits/GRAPES.git
