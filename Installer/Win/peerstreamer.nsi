@@ -7,7 +7,7 @@
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 !define SOURCE_PATH "..\..\PeerStreamer\"
-!define EXECUTABLE "chunker_player.exe"
+!define EXECUTABLE "peerstreamer.bat" 
 !define SETUP_BITMAP "peerstreamer.bmp"
 
 ; MUI 1.67 compatible ------
