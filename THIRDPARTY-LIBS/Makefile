@@ -71,8 +71,13 @@ GRAPES-build: GRAPES/$(GITREPOCHECK)
 NAPA-build: NAPA-BASELIBS/$(GITREPOCHECK)
 endif
 
+ifneq (,$(findstring mingw32,$(HOSTARCH)))
+x264/config.mak:
+	cd x264 && ./configure --disable-lavf --prefix=$(THIRDPARTYLIBS)/x264-install/ --libdir=$(THIRDPARTYLIBS)/x264-install/lib $(CONFIG_X264) --enable-win32thread || { echo "Error configuring x264" && exit 1; }
+else
 x264/config.mak:
 	cd x264 && ./configure --disable-lavf --prefix=$(THIRDPARTYLIBS)/x264-install/ --libdir=$(THIRDPARTYLIBS)/x264-install/lib $(CONFIG_X264) || { echo "Error configuring x264" && exit 1; }
+endif
 
 x264-install: x264/config.mak
 	$(MAKE) -C x264 || { echo "Error compiling x264" && exit 1; }
