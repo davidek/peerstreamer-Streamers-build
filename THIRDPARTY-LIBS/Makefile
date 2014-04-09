@@ -121,26 +121,34 @@ ffmpeg-install: ffmpeg/config.mak
 	$(MAKE) -C ffmpeg install || { echo "Error installing ffmpeg" && exit 1; }
 	touch ffmpeg-install
 
+# pjproject library is used for RTP chunkiser in GRAPES
+PJDIR = $(THIRDPARTYLIBS)/pjproject-install
 pjproject: PJPROJECT_VERSION = 2.1
 pjproject: PJPROJECT_VERSION_DIR = 2.1.0
+pjproject: PJPROJECT_CFLAGS += -g
 pjproject:
 	$(WGET_OR_CURL) http://www.pjsip.org/release/2.1/pjproject-$(PJPROJECT_VERSION).tar.bz2 && \
 	tar xjf pjproject-$(PJPROJECT_VERSION).tar.bz2 && \
 	mv pjproject-$(PJPROJECT_VERSION_DIR) pjproject && \
-	rm pjproject-$(PJPROJECT_VERSION).tar.bz2
-
-pjproject-install: PJPROJECT_CFLAGS += -g
-pjproject-install: pjproject
+	rm pjproject-$(PJPROJECT_VERSION).tar.bz2 && \
 	cd pjproject && \
-	./configure --disable-sound --disable-oss --disable-video --disable-small-filter --disable-large-filter --disable-speex-aec --disable-g711-codec --disable-l16-codec --disable-gsm-codec --disable-g722-codec --disable-g7221-codec --disable-speex-codec --disable-ilbc-codec --disable-sdl --disable-ffmpeg --disable-v4l2 --disable-ssl --disable-opencore-amr --disable-silk --prefix=$(THIRDPARTYLIBS)/pjproject-install CFLAGS="$(PJPROJECT_CFLAGS)" && \
+	./configure --disable-sound --disable-oss --disable-video --disable-small-filter --disable-large-filter --disable-speex-aec --disable-g711-codec --disable-l16-codec --disable-gsm-codec --disable-g722-codec --disable-g7221-codec --disable-speex-codec --disable-ilbc-codec --disable-sdl --disable-ffmpeg --disable-v4l2 --disable-ssl --disable-opencore-amr --disable-silk --prefix=$(PJDIR) CFLAGS="$(PJPROJECT_CFLAGS)" && \
 	make dep && \
 	make clean && \
 	make && \
+	touch pjproject
+
+pjproject-install: pjproject
+	cd pjproject && \
 	make install && \
+	export PKG_CONFIG_PATH=$(PJDIR)/lib/pkgconfig && \
+	pkg-config --cflags libpjproject >$(PJDIR)/CFLAGS && \
+	pkg-config --libs libpjproject >$(PJDIR)/LDLIBS && \
 	touch pjproject-install
 
+
 GRAPES-build: ffmpeg-install pjproject-install
-	$(FLAGS_GRAPES) FFDIR=$(THIRDPARTYLIBS)/ffmpeg PJDIR=$(THIRDPARTYLIBS)/pjproject-install $(MAKE) -C GRAPES || { echo "Error compiling GRAPES" && exit 1; }
+	$(FLAGS_GRAPES) FFDIR=$(THIRDPARTYLIBS)/ffmpeg PJDIR=$(PJDIR) $(MAKE) -C GRAPES || { echo "Error compiling GRAPES" && exit 1; }
 
 NAPA-build:
 	cd NAPA-BASELIBS && $(ALTO_OPTION) ./build_all.sh -q
