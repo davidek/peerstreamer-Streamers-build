@@ -125,7 +125,7 @@ ffmpeg-install: ffmpeg/config.mak
 PJDIR = $(THIRDPARTYLIBS)/pjproject-install
 pjproject: PJPROJECT_VERSION = 2.1
 pjproject: PJPROJECT_VERSION_DIR = 2.1.0
-pjproject: PJPROJECT_CFLAGS += -g
+#pjproject: PJPROJECT_CFLAGS += -g
 pjproject:
 	$(WGET_OR_CURL) http://www.pjsip.org/release/2.1/pjproject-$(PJPROJECT_VERSION).tar.bz2 && \
 	tar xjf pjproject-$(PJPROJECT_VERSION).tar.bz2 && \
